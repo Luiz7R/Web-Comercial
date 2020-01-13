@@ -19,6 +19,7 @@
 				<td><?= reais($produto['preco']) ?></td>
 			</tr>	
 			<?php endforeach ?>
+<<<<<<< HEAD
 		</table>
 
 		<h1>Cadastro</h1>	
@@ -57,6 +58,9 @@
 			));
 			echo form_close();
 		?>
+=======
+		</table>	
+>>>>>>> f1dd9f9a16bad4cdcc5f616b73fc7d7d78dcd0f2
 </div>		
 </body>	
 </html>
