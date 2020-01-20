@@ -20,4 +20,17 @@ class produtos_model extends CI_Model{
 		return TRUE;
 	}
 
+	public function salvar (){
+		$id = $this->input->post('id');
+
+		$produto = array (
+			'nome' => $this->input->post('nome'),
+			'preco' => $this->input->post('preco'),
+			'descricao' => $this->input->post('descricao')
+		);
+
+		$this->db->where('id', $id);
+		return $this->db->update('produtos', $produto);
+	}
+
 }

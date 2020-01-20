@@ -58,6 +58,7 @@ class Produtos extends CI_Controller {
 		$this->load->model("produtos_model");
 		$produto = $this->produtos_model->retorna($id);
 		$dados = array('produto' => $produto);
+
 		$this->load->view('templates/header');
 		$this->load->view('templates/nav-top');			
 		$this->load->view("produtos/detalhe", $dados);
@@ -69,6 +70,26 @@ class Produtos extends CI_Controller {
 		$this->load->model("produtos_model");
 		$this->produtos_model->deletar_produto($id);
 		$this->session->set_flashdata('success', 'Produto deletado com sucesso!');
+		redirect('/');
+	}
+
+	public function editar(){
+		$id = $this->input->get('id');
+		$this->load->model("produtos_model");
+		$produto = $this->produtos_model->retorna($id);
+		$dados = array('produto' => $produto);
+
+		$this->load->view('templates/header');
+		$this->load->view('templates/nav-top');			
+		$this->load->view("produtos/editar", $dados);
+		$this->load->view('templates/footer');
+		$this->load->view('templates/js');			
+	}
+
+	public function salvar ($id) {
+		$this->load->model("produtos_model");
+		$this->produtos_model->salvar($id);
+		$this->session->set_flashdata('success', 'Produto alterado com sucesso!');
 		redirect('/');
 	}
 }
