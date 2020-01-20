@@ -1,10 +1,3 @@
-
-<html>
-	<link rel="stylesheet" href=" <?= base_url("css/bootstrap.css") ?> ">
-	<title>Formulário</title>
-</head>
-<body>
-
 <div class="container">
 
 		<?php if($this->session->flashdata("success")): ?>
@@ -58,7 +51,3 @@
 
 			echo form_close();
 		?>
-
-</div>		
-</body>
-</html>

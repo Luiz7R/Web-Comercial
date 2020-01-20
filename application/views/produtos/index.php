@@ -1,9 +1,4 @@
 
-<html>
-	<link rel="stylesheet" href=" <?= base_url("css/bootstrap.css") ?> ">
-	<title>Web</title>
-</head>
-<body>
 
 <div class="container">
 
@@ -109,7 +104,3 @@
 
 	<?php endif ?>
 		
-
-</div>		
-</body>
-</html>

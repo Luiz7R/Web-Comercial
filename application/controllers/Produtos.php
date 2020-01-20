@@ -8,11 +8,20 @@ class Produtos extends CI_Controller {
 		$this->load->model("produtos_model");
 		$lista = $this->produtos_model->buscaTodos();
 		$dados = array("produtos" => $lista);
+
+		$this->load->view('templates/header', $dados);
+		$this->load->view('templates/nav-top', $dados);
 		$this->load->view('produtos/index', $dados);
+		$this->load->view('templates/footer', $dados);
+		$this->load->view('templates/js', $dados);
 	}
 
 	public function formulario () {
+		$this->load->view('templates/header');
+		$this->load->view('templates/nav-top');		
 		$this->load->view('produtos/formulario');
+		$this->load->view('templates/footer');
+		$this->load->view('templates/js');		
 	}
 
 	public function novo () {
@@ -36,7 +45,11 @@ class Produtos extends CI_Controller {
 			$this->session->set_flashdata("success", "Produto cadastrado com sucesso!");
 			redirect('/');
 		}else{
-			$this->load->view("produtos/formulario");
+			$this->load->view('templates/header');
+			$this->load->view('templates/nav-top');		
+			$this->load->view('produtos/formulario');
+			$this->load->view('templates/footer');
+			$this->load->view('templates/js');
 		}
 	}
 
@@ -45,8 +58,18 @@ class Produtos extends CI_Controller {
 		$this->load->model("produtos_model");
 		$produto = $this->produtos_model->retorna($id);
 		$dados = array('produto' => $produto);
+		$this->load->view('templates/header');
+		$this->load->view('templates/nav-top');			
 		$this->load->view("produtos/detalhe", $dados);
+		$this->load->view('templates/footer');
+		$this->load->view('templates/js');		
+	}
 
+	public function delete($id) {
+		$this->load->model("produtos_model");
+		$this->produtos_model->deletar_produto($id);
+		$this->session->set_flashdata('success', 'Produto deletado com sucesso!');
+		redirect('/');
 	}
 }
 

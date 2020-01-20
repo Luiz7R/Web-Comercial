@@ -14,4 +14,10 @@ class produtos_model extends CI_Model{
 		))->row_array( );
 	}
 
+	public function deletar_produto($id) {
+		$this->db->where('id', $id);
+		$this->db->delete('produtos');
+		return TRUE;
+	}
+
 }
