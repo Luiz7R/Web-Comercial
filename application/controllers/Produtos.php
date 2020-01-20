@@ -39,5 +39,14 @@ class Produtos extends CI_Controller {
 			$this->load->view("produtos/formulario");
 		}
 	}
+
+	public function detalhe () {
+		$id = $this->input->get('id');
+		$this->load->model("produtos_model");
+		$produto = $this->produtos_model->retorna($id);
+		$dados = array('produto' => $produto);
+		$this->load->view("produtos/detalhe", $dados);
+
+	}
 }
 

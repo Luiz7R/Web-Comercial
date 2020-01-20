@@ -53,6 +53,9 @@
 				"type" => "submit",
 				"content" => "Cadastrar"
 			));
+
+			echo anchor("produtos/index", "Voltar", array('class' => 'btn btn-primary'));
+
 			echo form_close();
 		?>
 

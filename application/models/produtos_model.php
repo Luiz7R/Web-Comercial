@@ -8,4 +8,10 @@ class produtos_model extends CI_Model{
 		$this->db->insert("produtos", $produto);
 	}
 
+	public function retorna($id) {
+		return $this->db->get_where("produtos", array(
+			"id" => $id
+		))->row_array( );
+	}
+
 }
