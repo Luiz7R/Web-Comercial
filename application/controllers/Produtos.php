@@ -3,6 +3,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Produtos extends CI_Controller {
 
+	function __construct(){
+		parent:: __construct();
+		$this->load->model('produtos_model', 'm');
+	}
+
 	public function index()
 	{
 		$this->load->model("produtos_model");
@@ -14,6 +19,55 @@ class Produtos extends CI_Controller {
 		$this->load->view('produtos/index', $dados);
 		$this->load->view('templates/footer', $dados);
 		$this->load->view('templates/js', $dados);
+	}
+
+	public function mostrarProdutos(){
+		$result = $this->m->mostrarProdutos( );
+		echo json_encode($result);
+	}
+
+	public function addProdutos(){
+		$result = $this->m->addProdutos( );
+		$msg['success'] = false;
+		$msg['type'] = 'add';
+		if($result){
+			$msg['success'] = true;
+		}
+		echo json_encode($msg);
+
+	}
+
+	public function EditarProdutos(){
+		$result = $this->m->EditarProdutos();
+		echo json_encode($result);
+	}
+
+	public function updateProdutos(){
+		$result = $this->m->updateProdutos();
+		$msg['success'] = false;
+		$msg['type'] = 'update';
+		if($result){
+			$msg['success'] = true;
+		}
+		echo json_encode($msg);
+	}
+
+	public function deletarProduto( ){
+		$result = $this->m->deletarProduto( );
+		$msg['success'] = false;
+		if($result){
+			$msg['success'] = true;
+		}
+		echo json_encode($msg);
+	}
+
+	public function deletarProdutos(){
+		$result = $this->m->deletarProdutos();
+		$msg['success'] = true;
+		if($result){
+			$msg['success'] = false;
+		}
+		echo json_encode($msg);
 	}
 
 	public function formulario () {

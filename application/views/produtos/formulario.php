@@ -1,18 +1,18 @@
-<div class="container">
+<!--div class="container">
 
-		<?php if($this->session->flashdata("success")): ?>
-			<p class="alert alert-success"><?= $this->session->flashdata("success") ?></p>	
-		<?php endif ?>	
+		<?php #if($this->session->flashdata("success")): ?>
+			<p class="alert alert-success"><#?= $this->session->flashdata("success") ?></p>	
+		<?php #endif ?>	
 
-		<?php if($this->session->flashdata("danger")): ?>
-			<p class="alert alert-danger"><?= $this->session->flashdata("danger") ?></p>			
-		<?php endif ?>		
+		<?php #if($this->session->flashdata("danger")): ?>
+			<p class="alert alert-danger"><#?= $this->session->flashdata("danger") ?></p>			
+		<?php #endif ?>		
 
 
 		<h1>Formulário</h1>	
 
 		<?php 
-			echo form_open ( "produtos/novo");
+		/*	echo form_open ( "produtos/novo");
 
 			echo form_label("Nome", "nome");
 			echo form_input(array(
@@ -49,5 +49,5 @@
 
 			echo anchor("produtos/index", "Voltar", array('class' => 'btn btn-primary'));
 
-			echo form_close();
+			echo form_close();*/
 		?>
