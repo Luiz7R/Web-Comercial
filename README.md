@@ -1,2 +1,2 @@
 # Web-Comercial
-Utilizando CodeIgniter-PHP-MySQL
+Utilizando CodeIgniter-PHP-MySQL-AJAX
