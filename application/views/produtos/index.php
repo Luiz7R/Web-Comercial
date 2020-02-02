@@ -1,6 +1,55 @@
 
+<!DOCTYPE html>
+<html>
+<head>
+
+<?php if($this->session->userdata("usuario_logado")) : ?>
+<?php $idUsuario = $this->session->userdata('usuario_logado')['id']; ?>
+
+
+<nav class="navbar navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Alterna navegação">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item active">
+        <a class="nav-link" href="">Inicio <span class="sr-only">(Página atual)</span></a>
+      </li>    
+      <li class="nav-item">
+       <!-- verificacao se e usuario "admin" para mostrar lista de usuarios -->	
+      	<?php if ($idUsuario == '3'): ?> 
+      			<a class="btn btn-primary" href="produtos/usuarios" role="button">Usuarios</a>
+        		<a class="nav-item nav-link" href="produtos/usuarios"></a>
+        <?php endif ?>
+<?php endif ?>        
+      </li>
+    </ul>
+  </div>
+</nav>  
+</nav>
+
+
+ <style>
+
+ 	body{
+ 	background-color: #D5CFCF;
+ 	}
+
+
+	h1 {
+	  text-align: center;
+	}
+
+
+ </style>
+</head>
+</html>
 
 <div class="container">
+
+  <br>
 
 		<?php if($this->session->flashdata("success")): ?>
 			<p class="alert alert-success"><?= $this->session->flashdata("success") ?></p>	
@@ -9,13 +58,24 @@
 		<?php if($this->session->flashdata("danger")): ?>
 			<p class="alert alert-danger"><?= $this->session->flashdata("danger") ?></p>			
 		<?php endif ?>		
+    	
+    	<!--?php if($this->session->userdata("usuario_logado")) : ?>
+		<#?php $idUsuario = $this->session->userdata('usuario_logado')['id']; ?-->
 
 		<?php if($this->session->userdata("usuario_logado")) : ?>
 
+            <?php $idUsuario = $this->session->userdata('usuario_logado')['id']; ?>
+        
+        	<!--?php if ($idUsuario == '3'): ?-->
+        		<!--?= anchor("produtos/usuarios", "Usuarios", array("class" => "btn btn-primary btn-md float-right")) ?-->
+        	<!--?php endif ?-->
+
+
 		<h1>Produtos</h1>
 		<div class="alert alert-success" style="display: none;">
-			
-		</div>
+
+		</div>	
+	    
 		<!--
 		<table class="table">
 			<tr>
@@ -45,14 +105,86 @@
 			<tr>
 				 <th>Nome</th>
 				 <th>Descricão</th>
+				 <th>Cor</th>
+				 <th>Tamanho</th>
 				 <th>Preço</th>
 			</tr>
 		  </thead>	
-		  <tbody>
 		  <tbody id="showdata">
 		  	
-		  </tbody>	
+		  </tbody>		  	
 		</table>
+
+			<!--table class="table">
+			  <thead>	
+				<tr>
+					 <th>id</th>
+					 <th>Nome</th>
+					 <th>Email</th>
+				</tr>
+			  </thead>	
+			  <tbody id="showdataUsuarios">
+			  	
+			  </tbody>		  	
+			</table-->
+<!--/div-->
+
+<!--div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        	<form id="myForm" action="" method="post" class="form-horizontal">
+        		<input type="hidden" name="txtId" value="0">
+        		<div class="form-group">
+        			<label for="produto" class="label-control col-md-5">Id</label>
+        			<div class="col-md-10">
+        				<input type="text" name="txtidProduto" class="form-control">
+        			</div>
+        		</div>        		
+        		<div class="form-group">
+        			<label for="produto" class="label-control col-md-5">Nome do Produto</label>
+        			<div class="col-md-10">
+        				<input type="text" name="txtNomeProduto" class="form-control">
+        			</div>
+        		</div>
+        		<div class="form-group">
+        			<label for="produto" class="label-control col-md-5">Cor</label>
+        			<div class="col-md-10">
+        				<input type="text" name="txtCorProduto" class="form-control">
+        			</div>
+        		</div>   
+        		<div class="form-group">
+        			<label for="descricao" class="label-control col-md-5">Tamanho</label>
+        			<div class="col-md-10">
+        				<input class="form-control" name="txtTamanho" class="form-control">
+        			</div>
+        		</div>        		      		
+        		<div class="form-group">
+        			<label for="descricao" class="label-control col-md-5">Descricao</label>
+        			<div class="col-md-10">
+        				<textarea class="form-control" name="txtDescricao"></textarea>
+        			</div>
+        		</div>
+        		<div class="form-group">
+        			<label for="produto" class="label-control col-md-5">Preço</label>
+        			<div class="col-md-10">
+        				<input type="preco" name="txtPreco" class="form-control">
+        			</div>
+        		</div>        		
+        	</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" id="btnSave" class="btn btn-primary">Save changes</button>
+      </div>
+    </div><-- /.modal-content -->
+  <!--/div--><!-- /.modal-dialog -->
+<!--/div--><!-- /.modal -->
+
 
 <div id="myModal" class="modal fade" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
@@ -68,6 +200,18 @@
         			<label for="produto" class="label-control col-md-5">Nome do Produto</label>
         			<div class="col-md-10">
         				<input type="text" name="txtNomeProduto" class="form-control">
+        			</div>
+        		</div>
+        		<div class="form-group">
+        			<label for="produto" class="label-control col-md-5">Cor</label>
+        			<div class="col-md-10">
+        				<input type="text" name="txtCorProduto" class="form-control">
+        			</div>
+        		</div>
+        		<div class="form-group">
+        			<label for="produto" class="label-control col-md-5">Tamanho</label>
+        			<div class="col-md-10">
+        				<input type="text" name="txtTamanho" class="form-control">
         			</div>
         		</div>
         		<div class="form-group">
@@ -92,6 +236,7 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+
 <div id="modalDeletar" class="modal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -113,18 +258,19 @@
 </div>
 
 
-
 <script>
 
   $(function(){
   		mostrarProdutos();
-
+  		//mostrarUsuarios();
 
   		$('#novoProduto').click(function(){
   			$('#myModal').modal('show');
   			$('#myModal').find('.modal-title').text('Add Novo Produto');
   			$('#myForm').attr('action', '<?php base_url() ?>produtos/addProdutos');
   		});
+
+
 
   		$('#btnSave').click(function(){
   			var url = $('#myForm').attr('action');
@@ -174,7 +320,7 @@
 				  		  $('.alert-success').html('Produto '+type+' com Sucesso').fadeIn( ).delay(4000).fadeOut('slow');
 				  		  mostrarProdutos();
 				  	    }else{
-				  	  	  alert('Error');
+				  	  	  alert('Error 2');
 				  	    }	
 				  	},
 				  	error: function(){
@@ -184,7 +330,8 @@
 			}						
   		});
 
-  // editar
+
+  // editar produto
   	 $('#showdata').on('click', '.item-edit', function(){
   	 	 var id = $(this).attr('data');
   	 	 $('#myModal').modal('show');
@@ -199,6 +346,8 @@
   	 	 	dataType: 'json',
   	 	 	success: function(data){
   	 	 		$('input[name=txtNomeProduto]').val(data.nome);
+  	 	 		$('input[name=txtCorProduto]').val(data.cor);
+  	 	 		$('input[name=txtTamanho]').val(data.tamanho);
   	 	 		$('textarea[name=txtDescricao]').val(data.descricao);
   	 	 		$('input[name=txtPreco]').val(data.preco);
   	 	 		$('input[name=txtId]').val(data.id);
@@ -210,7 +359,7 @@
   	 });
   
 
-  // deletar
+  // deletar produto
   	 $('#showdata').on('click', '.item-delete', function(){
   	 	 var id = $(this).attr('data');
   	 	 $('#modalDeletar').modal('show');
@@ -237,8 +386,10 @@
   	 	 	 });
   	 	 });
   	 });
-  
-  		// function
+
+
+
+  		// function mostrarProdutos
   			function mostrarProdutos(){
   				$.ajax({
   					url: '<?php base_url() ?>produtos/mostrarProdutos',
@@ -255,6 +406,8 @@
   							html +='<tr>'+
 		  							   '<td>'+data[i].nome+'</td>'+
 		  							   '<td>'+data[i].descricao+'</td>'+
+		  							   '<td>'+data[i].cor+'</td>'+
+		  							   '<td>'+data[i].tamanho+'</td>'+
 		  							   '<td>'+preco+'</td>'+
 		  							   '<td>'+
 			  								'<a href="javascript:;" class="btn btn-info item-edit" data="'+data[i].id+'">Editar</a>'+
@@ -269,19 +422,48 @@
   					}
   				});
   			}
+  
+
+  			function mostrarUsuarios(){
+  				$.ajax({
+  					url: '<?php base_url() ?>produtos/mostrarUsuarios',
+  					async: true,
+  					dataType: 'json',
+  					success: function (dataUsuarios){
+  						var ht = '';
+  						var i;
+
+  						for ( i = 0; i < dataUsuarios.length; i++ )
+  						{
+  							ht +='<tr>'+
+  									  '<td>'+dataUsuarios[i].id+'</td>'+
+		  							   '<td>'+dataUsuarios[i].nome+'</td>'+
+		  							   '<td>'+dataUsuarios[i].email+'</td>'+
+		  							   '<td>'+
+			  								'<a href="javascript:;" class="btn btn-info item-editUs" data="'+dataUsuarios[i].id+'">Editar</a>'+
+			  								'<a href="javascript:;" class="btn btn-danger item-deleteUs" data="'+dataUsuarios[i].id+'">Deletar</a>'+
+			  							'</td>'+	
+	  							    '</tr>';
+  						}
+  						$('#showdataUsuarios').html(ht);
+  					},
+  					error: function(){
+  						alert('erro');
+  					}
+  				});
+  			}
   });
-
-
 
 
 </script>
 		
 		<button id="novoProduto" class="btn btn-primary">Novo produto</button>
-		<!--#?= anchor("produtos/formulario", "Novo produto", array("class" => "btn btn-primary")) ?-->
+		
 		<?= anchor("login/logout", "Sair", array("class" => "btn btn-primary")) ?>	
+	</div>
 
 		<?php else : ?>
-
+		<br><br>
 		<h1>Login</h1>	
 
 		<?php 
@@ -311,7 +493,6 @@
 			echo form_close();
 		?>
 
-
 		<h1>Cadastro</h1>	
 
 		<?php 
@@ -323,6 +504,22 @@
 				"id"	=> "nome",
 				"class" => "form-control",
 				"maxlength" => "255"
+			));
+
+			echo form_label("Cpf", "cpf");
+			echo form_input(array(
+				"name" => "cpf",
+				"id"	=> "cpf",
+				"class" => "form-control",
+				"maxlength" => "20"
+			));
+
+			echo form_label("Sexo", "sexo");
+			echo form_input(array(
+				"name" => "sexo",
+				"id"	=> "sexo",
+				"class" => "form-control",
+				"maxlength" => "25"
 			));
 
 			echo form_label("Email", "email");
@@ -348,6 +545,7 @@
 			));
 			echo form_close();
 		?>
+
 
 	<?php endif ?>
 

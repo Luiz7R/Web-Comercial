@@ -43,11 +43,14 @@ class produtos_model extends CI_Model{
 		}
 	}
 
+
 	public function updateProdutos(){
 		$id = $this->input->post('txtId');
 		$usuarioId = $this->session->userdata("usuario_logado");
 		$campo = array(
 			'nome' => $this->input->post('txtNomeProduto'),
+			'cor' => $this->input->post('txtCorProduto'),
+			'tamanho' => $this->input->post('txtTamanho'),
 			'descricao' => $this->input->post('txtDescricao'),
 			'preco' => $this->input->post('txtPreco'),
 			'usuario_id' => $usuarioId['id']			
@@ -61,6 +64,27 @@ class produtos_model extends CI_Model{
 		}
 	}
 
+	/*public function updateProdutos(){
+		$id = $this->input->post('txtId');
+		$usuarioId = $this->session->userdata("usuario_logado");
+		$campo = array(
+			'id' => $this->input->post('txtId'),
+			'nome' => $this->input->post('txtNomeProduto'),
+			'cor' => $this->input->post('txtCorProduto'),
+			'tamanho' => $this->input->post('txtTamanho'),
+			'descricao' => $this->input->post('txtDescricao'),
+			'preco' => $this->input->post('txtPreco'),
+			'usuario_id' => $usuarioId['id']			
+		);	
+		$this->db->where('id', $id);
+		$this->db->update('produtos', $campo);
+		if($this->db->affected_rows() > 0 ){
+			return true;
+		}else{
+			return false;
+		}
+	}*/
+
 	function deletarProduto(){
 		$id = $this->input->get('id');
 		$this->db->where('id', $id);
@@ -73,15 +97,6 @@ class produtos_model extends CI_Model{
 		}
 	}
 
-	function deletarProdutos(){
-		$id = $this->input->get('id');
-		$this->db->where('id', $id);
-		if($this->db->affected_rows() > 0){
-			return true;
-		}else{
-			return false;
-		}
-	}
 
 	public function salva ($produto){
 		$this->db->insert("produtos", $produto);

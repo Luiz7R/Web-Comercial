@@ -5,6 +5,9 @@ class Login extends CI_Controller {
 
 	public function autenticar()
 	{
+		$this->load->view('usuarios/novo');
+
+
 		$this->load->model("usuarios_model");
 		$email = $this->input->post("email");
 		$senha = md5($this->input->post("senha"));
@@ -16,6 +19,10 @@ class Login extends CI_Controller {
 			$this->session->set_flashdata("danger", "Usuário ou senha inválidos! ");	
 		}
 		redirect('/');
+	}
+
+	public function validateCpf ($par){
+		
 	}
 
 	public function logout () {

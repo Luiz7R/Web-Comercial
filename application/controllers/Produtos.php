@@ -6,6 +6,8 @@ class Produtos extends CI_Controller {
 	function __construct(){
 		parent:: __construct();
 		$this->load->model('produtos_model', 'm');
+		$this->load->model('usuarios_model', 'u_m');
+
 	}
 
 	public function index()
@@ -37,6 +39,7 @@ class Produtos extends CI_Controller {
 
 	}
 
+
 	public function EditarProdutos(){
 		$result = $this->m->EditarProdutos();
 		echo json_encode($result);
@@ -52,6 +55,16 @@ class Produtos extends CI_Controller {
 		echo json_encode($msg);
 	}
 
+	/*public function updateProdutos(){
+		$result = $this->m->updateProdutos();
+		$msg['success'] = false;
+		$msg['type'] = 'update';
+		if($result){
+			$msg['success'] = true;
+		}
+		echo json_encode($msg);
+	}*/
+
 	public function deletarProduto( ){
 		$result = $this->m->deletarProduto( );
 		$msg['success'] = false;
@@ -61,13 +74,14 @@ class Produtos extends CI_Controller {
 		echo json_encode($msg);
 	}
 
-	public function deletarProdutos(){
-		$result = $this->m->deletarProdutos();
-		$msg['success'] = true;
-		if($result){
-			$msg['success'] = false;
-		}
-		echo json_encode($msg);
+	public function mostrarUsuarios(){
+		$result = $this->u_m->mostrarUsuarios( );
+		echo json_encode($result);
+	}
+
+	public function usuarios (){
+		$result = $this->u_m->mostrarUsuarios( );
+		$this->load->view('produtos/listaUsuarios');
 	}
 
 	public function formulario () {
