@@ -54,6 +54,70 @@ function validateCpf($cpf) {
 
 }
 
+	public function mostrarUsuarios(){
+
+		$query = $this->db->get('usuarios');
+		if ($query->num_rows() > 0 ) {
+			return $query->result();
+		}else{
+			return false;
+		}
+	}
+
+	public function retorna($id) {
+		return $this->db->get_where("usuarios", array(
+			"id" => $id
+		))->row_array( );
+	}
+
+	public function contaUsuario ()
+	{
+		if ( $this->session->userdata("usuario_logado") )
+		{	
+    	     $idUsuario = $this->session->userdata('usuario_logado')['id'];
+        }      
+
+		$this->load->view('usuarios/conta', $idUsuario);
+	}	
+
+	public function updateUsuario( )
+	{
+		//$id = $this->input->post('txtId');
+		//$idUsuario = $this->input->post('txtidUsuario');
+		$campo = array(
+			'id'   => $this->input->post('txtidUsuario'),
+			'nome' => $this->input->post('txtNomeUsuario'),
+		 	'cpf'  => $this->input->post('txtCpf'),
+			'sexo' => $this->input->post('txtSexo'),
+			'email' => $this->input->post('txtEmail')
+		);
+		$this->db->where('id', $this->input->post('txtidUsuario'));
+		$this->db->update("usuarios", $campo);
+		if ( $this->db->affected_rows() > 0 )
+		{
+			 return true;
+		}
+		else
+		{
+			return false;
+		}	
+	}
+
+
+	public function salvarDados($usuarioUP,$idUsuario)
+	{
+			$this->db->where('id', $idUsuario);
+			$this->db->update("usuarios", $usuarioUP);
+			if ( $this->db->affected_rows() > 0 )
+			{
+				 return true;
+			}
+			else
+			{
+				return false;
+			}				
+	}
+
 	public function EditarUsuario(){
 		$id = $this->input->get('id');
 		$this->db->where('id', $id);
@@ -66,23 +130,6 @@ function validateCpf($cpf) {
 	}
 
 
-	public function updateUsuario(){
-		$id = $this->input->post('txtId');
-		$campo = array(
-			'id' => $this->input->post('txtidUsuario'),
-			'nome' => $this->input->post('txtNomeUsuario'),
-			'cpf' => $this->input->post('txtCpf'),
-			'sexo' => $this->input->post('txtSexo'),
-			'email' => $this->input->post('txtEmail')			
-		);	
-		$this->db->where('id', $id);
-		$this->db->update('usuarios', $campo);
-		if($this->db->affected_rows() > 0 ){
-			return true;
-		}else{
-			return false;
-		}
-	}
 
 	function deletarUsuario(){
 		$id = $this->input->get('id');
@@ -96,13 +143,5 @@ function validateCpf($cpf) {
 		}
 	}
 
-	public function mostrarUsuarios(){
 
-		$query = $this->db->get('usuarios');
-		if ($query->num_rows() > 0 ) {
-			return $query->result();
-		}else{
-			return false;
-		}
-	}	
 }
