@@ -308,6 +308,8 @@ h2 {
   			var data = $('#myForm').serialize( );
 
   			var nomeProduto = $('input[name=txtNomeProduto]');
+        var corProduto = $('input[name=txtCorProduto]');
+        var tamanhoProduto = $('input[name=txtTamanho]');
   			var nomeDescricao = $('textarea[name=txtDescricao]');
   			var preco = $('textarea[name=txtPreco]');
   			var result = '';
@@ -318,20 +320,32 @@ h2 {
 				nomeProduto.parent().parent().removeClass('has-error');
 				result += '1';
 			}
+      if(corProduto.val()==''){
+        corProduto.parent().parent().addClass('has-error');
+      }else{
+        corProduto.parent().parent().removeClass('has-error');
+        result += '2';
+      }
+      if(tamanhoProduto.val()==''){
+        tamanhoProduto.parent().parent().addClass('has-error');
+      }else{
+        tamanhoProduto.parent().parent().removeClass('has-error');
+        result += '3';
+      }            
 			if(nomeDescricao.val()==''){
 				nomeDescricao.parent().parent().addClass('has-error');
 			}else{
 				nomeDescricao.parent().parent().removeClass('has-error');
-				result += '2';
+				result += '4';
 			}
 			if(preco.val()==''){
 				preco.addClass('has-error');
 			}else{
 				preco.removeClass('has-error');
-				result += '3';
+				result += '5';
 			}
 
-			if ( result == '123' ){
+			if ( result == '12345' ){
 				$.ajax({
 				  	type: 'ajax',
 				  	method: 'post',

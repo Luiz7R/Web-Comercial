@@ -69,6 +69,7 @@ class produtos_model extends CI_Model{
 		$usuarioId = $this->session->userdata("usuario_logado");
 		$campo = array(
 			'nome' => $this->input->post('txtNomeProduto'),
+			'cor' => $this->input->post('txtCorProduto'),
 			'descricao' => $this->input->post('txtDescricao'),
 			'tamanho'   => $this->input->post('txtTamanho'),
 			'preco' => $this->input->post('txtPreco'),

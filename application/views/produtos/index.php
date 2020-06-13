@@ -69,6 +69,9 @@
                   <a class="nav-link" href="admin/pedidos">Pedidos</a>
                 </li>               
 
+                 <li class="nav-item active">
+                  <a class="nav-link" href="admin/produtos/">Produtos</a>
+                </li>  
     	        <?php endif ?>
 
               <li class="nav-item">       
