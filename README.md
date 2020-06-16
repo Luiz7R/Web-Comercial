@@ -18,7 +18,7 @@
 
 Clonar o projeto 
 
-* git clone https://github.com/Luiz7R/web
+* git clone https://github.com/Luiz7R/web.git
 
 
 
