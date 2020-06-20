@@ -7,12 +7,23 @@
 * Control Panel Version: 3.2.4  [ Compiled: Jun 5th 2019 ]
 
 
-### Antes de Começar
+
+### Antes de Começar - Instalando em Windows.
 
 * Programas Requisitados 
    
    * Xampp 
    * Download : https://www.apachefriends.org/pt_br/download.html
+	
+	* phpmyAdmin
+	* Download : https://www.phpmyadmin.net/
+	* Instalação : Coloque a pasta phpMyAdmin dentro do htdocs, localizado em C:\xampp\htdocs.
+	* Encontre a pasta PHP localizado em C:\xampp\, localizando a pasta PHP.
+	* Renomeie o arquivo "php.ini-production" para php-ini. agora já renomeado abra o arquivo "php.ini",
+	* no bloco de notas, Encontre a linha de texto "extension=php_mbstring.dll" e remova o ponto e vírgula.
+	* Agora salve e seu servidor phpMyAdmin estará pronto para o uso.
+	*
+	* Tutorial explicando passo a passo com fotos: https://pt.wikihow.com/Instalar-o-phpMyAdmin-em-Seu-PC-do-Windows
 
 <br>
 
