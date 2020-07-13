@@ -1,63 +1,58 @@
 <?php
+
 		$this->load->view('templates/header');
 		$this->load->view('templates/nav-top');
 		$this->load->view('templates/footer');
 		$this->load->view('templates/js');
+ 
 
 		if ( $this->session->userdata("usuario_logado") )
 		{
 
-			 $idUsuario = $this->session->userdata("usuario_logado")['id'];
-			 if ( $idUsuario == '3' )
-			 {
+			      $idUsuario = $this->session->userdata("usuario_logado")['id'];
+              
+            $GLOBALS['b'] = $pedidos;
 
+            function fetch_request_data()
+            {
+                  $saida = '';
+                  $pedidosFeitos = '';
+                  $pedidosFeitos = $GLOBALS['b'];
 
-// ----------- conexao sql , buscar dados de pedidos ------------
+                  $saida = '
+                  <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                      <tr>
+                         <th width="20%">Código do Pedido</th>
+                         <th width="180px">Data do Pedido</th>
+                         <th>Observação</th>
+                         <th width="130px">Forma de Pagamento</th>
+                      </tr>
+                      <br>
+                  ';
 
-				$conexao = mysqli_connect("localhost", "root", "", "web1" );
-				$selecionarTb = "SELECT * FROM pedidos ORDER BY id desc";	
-				$resultado = mysqli_query($conexao, $selecionarTb);
-				$message = '';
-				$conexao2 = new PDO("mysql:host=localhost;dbname=web1", "root", "");
+                 foreach ( $pedidosFeitos as $row)
+                 {
+                    $mydt = DateTime::createFromFormat('Y-m-d', $row['order_date'] );
+                    $formatd = $mydt->format('d/m/yy');
+                    $saida .= '
+                        <tr>
+                            <td>'. $row['id'] .'</td>
+                            <td>'. $formatd .'</td>
+                            <td>'. $row['observacao'] .'</td>
+                            <td>'. $row['payment_status'] .'   
+                            </td>                      
+                        </tr>';
+                 }
+                 $saida .= '</table></div>';
+            // retornar             
+               return $saida;             
+          }
 
+  			 if ( $idUsuario == '3' )
+  			 {
+              $message = '';
 
-		        function fetch_request_data($conexao2)
-		        {
-		          $query = "SELECT * FROM pedidos";
-		          $statement = $conexao2->prepare($query);
-		          $statement->execute();
-		          $result = $statement->fetchAll();
-		          $output = '
-		          <div class="table-responsive">
-		            <table class="table table-striped table-bordered">
-		              <tr>
-		                 <th>Código do Pedido</th>
-		                 <th>Data do Pedido</th>
-		                 <th>Observação</th>
-		                 <th>Forma de Pagamento</th>
-		              </tr>
-		              <br>
-		          ';
-		          foreach($result as $row)
-		          {
-		          	$mydt = DateTime::createFromFormat('Y-m-d', $row['order_date'] ); 
-		                        $formatd = $mydt->format('d/m/yy');
-
-		            $output .= '
-		              <tr>
-		                <td>'.$row['id'].'</td>
-		                <td>'.$formatd.'</td>
-		                <td>'.$row['observacao'].'</td>
-		                <td>'.$row['payment_status'].'</td>
-		              </tr>
-		            ';
-		          }
-		          $output .= '
-		            </table>
-		          </div>
-		          ';
-		          return $output;
-		        }
 
 
 ?>
@@ -144,6 +139,7 @@ h2 {
     </nav> 
 
 
+
 <style>
 
  	body{
@@ -174,6 +170,13 @@ h2 {
       <form method="post">
         <input type="submit" name="action" class="btn btn-danger" value="Enviar PDF" /><?php echo $message; ?>
       </form>
+
+<?php
+    if ( isset($_POST["action"]) )
+    {
+          include('usuarios/pdf.php');
+          include('enviarEmail.php');
+    }  ?>
 
   <body>
     <br />
@@ -206,15 +209,18 @@ h2 {
                      <th>Deletar</th>
                      <th>PDF</th>                  
                   </tr>  
-                  </thead><!--td><?#php echo $row['order_date']; ?></td-->
-                  <?php
-                  while ( $row = mysqli_fetch_array($resultado) )
+                  </thead>
+                  <!--tbody id="showdataPedidos">
+                            
+                  </tbody-->  
+                  /*<?php
+                  foreach( $pedidos as $row )
                   { 
                   ?>
                       <?php $mydt = DateTime::createFromFormat('Y-m-d', $row['order_date'] ); 
                         $formatd = $mydt->format('d/m/yy');
                       ?>
-                          <tr>
+                           <tr>
                             <td><?php echo $row['id']; ?></td>
                             <td><?php echo $formatd ?></td>
                             <td><?php echo $row['observacao']; ?></td>
@@ -319,6 +325,7 @@ h2 {
         <div class="col-md-5">
           <input type="button" name="buscar" id="buscar" value="Buscar" class="btn btn-info" />
         </div>
+
 <?php			      
 			 }
 			 else
@@ -327,101 +334,6 @@ h2 {
 			 	  return false;
 			 }	 			
 		}
-
-
-// ------------------ lembrete ( use e require fora de if ) -------
-
-
-        use PHPMailer\PHPMailer\PHPMailer;
-        use PHPMailer\PHPMailer\SMTP;
-        use PHPMailer\PHPMailer\Exception;
-
-
-
-        // Load Composer's autoloader
-        require 'produtos/vendor/autoload.php';
-
-        $mail = new PHPMailer(true);
-        /*href=" <#?= base_url("css/bootstrap.css") ?> "
-		'<link rel="stylesheet" href="bootstrap.min.css">';
-        */
-        if ( isset($_POST["action"]) )
-        {
-              include('pdf.php');
-              $file_name = md5(rand()) . '.pdf';
-              $html_code = '<link rel="stylesheet" href="http://localhost/web/css/bootstrap.css">';
-              $html_code .= fetch_request_data($conexao2);
-              $pdf = new Pdf();
-              $pdf->load_html($html_code);
-              $pdf->render();
-              $file = $pdf->output();
-              file_put_contents($file_name, $file);
-
-              /*
-              *
-              *
-              * No campo abaixo coloque o email do administrador que vai receber
-              * todos os relatorios de pedidos , obs: não precisar ser do gmail
-              *
-              $mail->addAddress( emailAdministrador@yahoo.com.br, Administrador ); 
-              * Ele vai então enviar ao email o relatorio de todos os pedidos
-              * 
-              * 
-              * Agora configurar a conta de onde vai ser enviado o email
-              * no campo abaixo coloque o email e a senha
-              * $mail->Username   = 'seuemailaqui@gmail.com'; // seu email 
-              * $mail->Password   = 'suasenhaemailgmail';         // sua senha
-              * então esta configurado a conta que vai enviar os emails
-              *
-              *
-              * Ele esta configurado para enviar o email de uma conta gmail
-              * Então no campo 
-              * $mail->setFrom('seuEmailGmail@gmail.com', 'Nome Desejado');
-              * você deve informar o email gmail de onde vai enviar e o nome que 
-              * quer que apareça quando a pessoa ver o Email
-              */
-              try 
-              {  
-              //$mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
-              $mail->isSMTP();                                            // Send using SMTP
-              $mail->Host       = 'smtp.gmail.com';                    // Set the SMTP server to send through
-              $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-              $mail->Username   = 'seuemailaqui@gmail.com';              // SMTP username
-              $mail->Password   = 'suasenhaemailgmail';                              // SMTP password
-              $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
-              $mail->Port       = 587;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
-              $mail->CharSet = 'UTF-8';
-              $mail->Encoding = 'base64';
-              //Recipients
-              $mail->setFrom('seuEmailGmail@gmail.com', 'Nome Desejado');
-              $mail->addAddress('emailAdministrador@yahoo.com.br', 'Administrador');// Add a recipient        
-
-              // Anexos
-              	 //$mail->addAttachment('application/views/produtos/blue.jpg) // mesma pasta do programa
-                 $mail->addAttachment($file_name); 
-
-              // Content
-              $mail->isHTML(true);                                  // Set email format to HTML
-              $mail->Subject = 'Lista de Pedidos';
-              $mail->Body    = 'Segue em Anexo o PDF , contendo a lista de pedidos';
-              $mail->AltBody = 'Segue em Anexo o PDF , contendo a lista de pedidos';
-
-              if ( $mail->send() )
-              {  
-                   $this->session->set_flashdata("success", "Email enviado com sucesso!" );
-              }
-
-              } // fim try
-              catch (Exception $e)
-              {
-                  $this->session->set_flashdata("danger", "Mensagem não pode ser enviada. Mailer Error:
-                  {$mail->ErrorInfo}"); 
-
-                  echo "Mensagem não pode ser enviada. Mailer Error:
-                  {$mail->ErrorInfo}";
-              }  // fim catch
-              unlink($file_name); // Exclui PDF Gerado, depois que envia o email
-        }  
 
 
 ?>
@@ -666,7 +578,7 @@ h2 {
                        '<td>'+data[i].id+'</td>'+
                        '<td>'+dataFormatada.toLocaleDateString()+'</td>'+
                        '<td>'+data[i].observacao+'</td>'+
-                       '<td>'+data[i].payment_status+'</td>'+                       
+                       '<td>'+data[i].payment_status+'</td>'+                     
                        '<td></td>'+
                         '<a href="javascript:;" class="btn btn-info btn-xs item-edit" data="'+data[i].id+'">Editar</a>'+
                         '<a href="javascript:;" class="btn btn-danger btn-xs item-delete" data="'+data[i].id+'">Deletar</a>'+ 
