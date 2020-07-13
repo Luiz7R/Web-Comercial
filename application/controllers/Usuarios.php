@@ -8,7 +8,7 @@ class Usuarios extends CI_Controller {
 		parent:: __construct();
 		$this->load->model('produtos_model', 'm');
 		$this->load->model('usuarios_model', 'u_m');
-		$idUsuario = $this->session->userdata('usuario_logado')['id'];
+		//$idUsuario = $this->session->userdata('usuario_logado')['id'];
 
 	}
 
@@ -16,10 +16,10 @@ class Usuarios extends CI_Controller {
 	$this->load->model("usuarios_model");
 
 		$usuario = array (
-			"nome" => $this->input->post("nome"),
+			"nome" => htmlspecialchars($this->input->post("nome")),
 			"cpf" => $this->input->post("cpf"),
-			"sexo" => $this->input->post("sexo"),
-			"email" => $this->input->post("email"),	
+			"sexo" => htmlspecialchars($this->input->post("sexo")),
+			"email" => htmlspecialchars($this->input->post("email")),	
 			"senha" => md5($this->input->post("senha"))
 		);
 

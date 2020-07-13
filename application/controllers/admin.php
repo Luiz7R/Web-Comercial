@@ -91,7 +91,8 @@ class Admin extends CI_Controller
 			echo json_encode($result);
 		}
 
-
+		
+		
 		public function produtos ( )
 		{
 			$result = $this->m->mostrarProdutos( );
@@ -100,8 +101,10 @@ class Admin extends CI_Controller
 
 		public function pedidos ( )
 		{
-			$result = $this->pm->mostrarPedidos( );
-			$this->load->view('pedidos');
+			$resultado2 = $this->pm->mostrarPedidos( );
+			$todosPedido = array("pedidos" => $resultado2);
+			//print_r($todosPedido);
+			$this->load->view('pedidos', $todosPedido);
 		}
 
 		public function filtrar ( )
@@ -109,9 +112,20 @@ class Admin extends CI_Controller
 			$this->load->view('filtrar');
 		}
 
-		public function buscar ( )
+		public function buscar ()
 		{
-			$this->load->view('buscar');
+			if ( isset($_POST['buscarpedidos']) )
+			{
+				 $idUs = $_POST['buscarpedidos'];
+				 $dadosPedido = $this->pm->buscarPedidos($idUs);
+				 $pedido = array("pedidos" => $dadosPedido);
+				 //print_r($pedido);
+				 $this->load->view('buscar', $pedido);	
+			}
+			//$query = $this->db->query("SELECT * FROM pedidos ORDER BY id desc");
+			/*$dadosPedido = $this->pm->buscarPedidos($id);
+			$pedido = array('pedidos' => $dadosPedido );
+			$this->load->view(''buscar'');*/
 		}
 
 		public function usuarios ( )

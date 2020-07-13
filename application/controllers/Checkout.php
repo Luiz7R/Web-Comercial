@@ -50,9 +50,10 @@ class Checkout extends CI_Controller
 				'endereco' => strip_tags($this->input->post('endereco'))
 			);*/
 
-			$metodoPagamento = $this->input->post('nomePagamento');
-			$dadosPedidos = $this->input->post('dadosdoPedido');
-			$enderecoPedido = $this->input->post('endereco');
+			$metodoPagamento = htmlspecialchars($this->input->post('nomePagamento'));
+			$dadosPedidos = htmlspecialchars($this->input->post('dadosdoPedido'));
+			$enderecoPedido = htmlspecialchars($this->input->post('endereco'));
+			
 			if ( !empty($enderecoPedido) )
 			{
                  $addEndereco = array ( 'endereco' => $enderecoPedido);

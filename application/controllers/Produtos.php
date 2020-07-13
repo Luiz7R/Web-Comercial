@@ -18,10 +18,6 @@ class Produtos extends CI_Controller {
 		$this->load->model("produtos_model");
 		$lista = $this->produtos_model->buscaTodos();
 		$dados = array("produtos" => $lista);
-		$data = array();
-		$data['produtos'] = $this->produtos_model->getRows();
-		$pedidoDados['pedido_dados'] = $this->produtos_model->buscarDTPedido();
-		//$this->load->view('produtos/pedidos', $pedidoDados);
 		$this->load->view('templates/header', $dados);
 		$this->load->view('templates/nav-top', $dados);
 		$this->load->view('produtos/index', $dados);
