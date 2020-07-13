@@ -148,7 +148,7 @@ o arquivo : web1.sql
 * pra poder mandar Email pelo phpMailer, caso queira crie uma conta nova
 * para evitar problemas.
 * Observação antes de enviar email da lista de pedidos 
-  colocar o Email do gmail no arquivo pedidos.php é também no arquivo conta.php , lá esta explicando tudo direito.
+  colocar o Email do gmail no arquivo views/enviarEmail.php é também no arquivo conta.php , lá esta explicando tudo direito.
 
 
 <br>
