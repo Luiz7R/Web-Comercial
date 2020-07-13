@@ -180,9 +180,6 @@ h2 {
         <ul class="navbar-nav ml-auto">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link active" href="../">Produtos</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" href="#">Categorias</a>
           </li>
           <li class="nav-item">
