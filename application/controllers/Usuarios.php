@@ -39,14 +39,16 @@ class Usuarios extends CI_Controller {
 	}
 
 	public function Conta(){
+
 		if ( $this->session->userdata("usuario_logado") )
 		{
 			$idUsuario = $this->session->userdata('usuario_logado')['id'];	
 			$id = $idUsuario;
 			$this->load->model("usuarios_model");
 			$usuario = $this->usuarios_model->retorna($id);
-			$dados = array('usuario' => $usuario);
-
+			$pedidos = $this->usuarios_model->retornaPedidos($id);
+			$dados = array('usuario' => $usuario, 'pedidos' => $pedidos);
+			 
 			$this->load->view('templates/header');
 			$this->load->view('templates/nav-top');			
 			$this->load->view("usuarios/conta", $dados);
