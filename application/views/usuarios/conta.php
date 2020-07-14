@@ -4,20 +4,18 @@
 		$this->load->view('templates/footer');
 		$this->load->view('templates/js');
 
+
 if ( $this->session->userdata("usuario_logado") ) 
 {
-    $conexao = mysqli_connect("localhost", "root", "", "web1" );
-    $selecionarTb = "SELECT * FROM pedidos ORDER BY id desc"; 
-    $resultado = mysqli_query($conexao, $selecionarTb);
+            
+    $GLOBALS['pedidos'] = $pedidos;
     $message = '';
-    $conexao2 = new PDO("mysql:host=localhost;dbname=web1", "root", "");
 
-        function fetch_request_data($conexao2, $usuarioId)
+        function fetch_request_data()
         {
-          $query = "SELECT * FROM pedidos";
-          $statement = $conexao2->prepare($query);
-          $statement->execute();
-          $result = $statement->fetchAll();
+
+          $pedidosFeitos = '';
+          $pedidosFeitos = $GLOBALS['pedidos'];
           $output = '
           <div class="table-responsive">
             <table class="table table-striped table-bordered">
@@ -29,12 +27,12 @@ if ( $this->session->userdata("usuario_logado") )
               </tr>
               <br>
           ';
-          foreach($result as $row)
+
+ 
+          foreach($pedidosFeitos as $row)
           {
             $mydt = DateTime::createFromFormat('Y-m-d', $row['order_date'] ); 
-                        $formatd = $mydt->format('d/m/yy');
-            if ( $row['usuario_id'] == $usuarioId  )
-            {         
+            $formatd = $mydt->format('d/m/yy');        
 
             $output .= '
               <tr>
@@ -44,14 +42,17 @@ if ( $this->session->userdata("usuario_logado") )
                 <td>'.$row['payment_status'].'</td>
               </tr>
             ';
-            }
+            
           }
+
+
           $output .= '
             </table>
           </div>
           ';
           return $output;
         }
+
 
 ?>
         <?php if($this->session->userdata("usuario_logado")) { ?>
@@ -160,73 +161,31 @@ if ( $this->session->userdata("usuario_logado") )
              <table class="table table-bordered table-striped">
                   <thead>
                   <tr>
-                     <th>Código do Pedido</th>
-                     <th>Data do Pedido</th>
+                     <th width="20%">Código do Pedido</th>
+                     <th width="180px">Data do Pedido</th>
                      <th>Observação</th>
-                     <th>Forma de Pagamento</th> 
-                     <th>PDF</th>                  
+                     <th width="130px">Forma de Pagamento</th> 
+                     <th width="10%">PDF</th>                  
                   </tr>  
-                  </thead><!--td><?#php echo $row['order_date']; ?></td-->
+                  </thead>
                   <?php
-
-
-                  while ( $row = mysqli_fetch_array($resultado) )
-                  {
-                      if ( $row['usuario_id'] == $usuario['id'] )
-                      {                   
-                  ?>
-
-                      <?php $mydt = DateTime::createFromFormat('Y-m-d', $row['order_date'] ); 
-                        $formatd = $mydt->format('d/m/yy');
-                      ?>
+                      foreach($pedidos as $row)
+                      {
+                        $mydt = DateTime::createFromFormat('Y-m-d', $row['order_date'] ); 
+                        $formatd = $mydt->format('d/m/yy');        
+                  ?>      
                           <tr>
-                            <td><?php echo $row['id']; ?></td>
-                            <td><?php echo $formatd ?></td>
-                            <td><?php echo $row['observacao']; ?></td>
-                            <td><?php echo $row['payment_status']; ?></td>
-                            <td><a href="../admin/pdfdetalhes/<?php echo $row['id'] ?>" class="btn btn-success btn-xs item-pdf">Ver PDF</a></td>                            
-                          </tr>  
-                  <?php
-                     }
-                  }
-                  ?>
+                            <td><?= $row['id']; ?></td>
+                            <td><?= $formatd ?></td>
+                            <td><?= $row['observacao'] ?></td>
+                            <td><?= $row['payment_status'] ?></td>
+                            <td><a href="../admin/pdfdetalhes/<?php echo $row['id'] ?>" class="btn btn-success btn-xs item-pdf">Ver PDF</a></td>                             
+                          </tr>
+                   <?php     
+                      }
+                   ?>     
              </table>
-              <?php if ( isset($pedido_dados) )
-              {
-              ?>
-
-              <br>
-              <div class="container" id="order_table">
-                   <table class="table table-bordered table-striped">
-                        <thead>
-                        <tr>
-                           <th>Código do Pedido</th>
-                           <th>Data do Pedido</th>
-                           <th>Observação</th>
-                           <th>Forma de Pagamento</th> 
-                           <th>PDF</th>                  
-                        </tr>  
-                        </thead>
-                    </table>    
-              <?php
-                foreach ( $pedido_dados->result( ) as $row )
-                {
-                          echo '
-                              <tr>
-                                 <td>'.$row->id.'</td>
-                                 <td>'.$row->order_date.'</td>
-                                 <td>'.$row->observacao.'</td>
-                                 <td>'.$row->payment_status.'</td>
-                                 <td><a href=""</td>
-                              </tr>
-                          ';
-                }  
-              ?>      
-
-              <?php
-              } // fim isset 
-              ?>
-             <br />
+             <!--br /-->
 
         </div>  
 
@@ -239,7 +198,8 @@ if ( $this->session->userdata("usuario_logado") )
     </div>
 
 <?php
-  } 
+  }
+
  else 
  { ?>
     <h1 align="center">Error</h1>
@@ -266,7 +226,7 @@ if ( $this->session->userdata("usuario_logado") )
               include('pdf.php');
               $file_name = md5(rand()) . '.pdf';
               $html_code = '<link rel="stylesheet" href="http://localhost/web/css/bootstrap.css">';
-              $html_code .= fetch_request_data($conexao2,$idUsuario);
+              $html_code .= fetch_request_data();//($conexao2,$idUsuario);
               $pdf = new Pdf();
               $pdf->load_html($html_code);
               $pdf->render();
@@ -301,16 +261,17 @@ if ( $this->session->userdata("usuario_logado") )
               $mail->isSMTP();                                            // Send using SMTP
               $mail->Host       = 'smtp.gmail.com';                    // Set the SMTP server to send through
               $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-              $mail->Username   = 'seuemailaqui@gmail.com';                // SMTP username
-              $mail->Password   = 'suasenhaemailgmail';                             // SMTP password
-              $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
+              $mail->Username   = 'seuemailaqui@gmail.com'; // SMTP username
+              $mail->Password   = 'suasenhaemailgmail';// SMTP password
+
+              $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
               $mail->Port       = 587;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
               $mail->CharSet = 'UTF-8';
               $mail->Encoding = 'base64';
-              //Recipients
-              $mail->setFrom('seuemailaqui@gmail.com', 'Web Calçados');
+              // Recipients
+                 $mail->setFrom('seuemailaqui@gmail.com', 'Web Calçados');
               // Add a recipient        
-              $mail->addAddress( $usuario['email'],$usuario['nome']);
+                 $mail->addAddress( $usuario['email'],$usuario['nome']);
 
               // Anexos
               //$mail->addAttachment('application/views/produtos/nomeDoarquivo) // mesma pasta do programa
