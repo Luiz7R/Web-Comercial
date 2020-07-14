@@ -213,7 +213,7 @@ h2 {
                   <!--tbody id="showdataPedidos">
                             
                   </tbody-->  
-                  /*<?php
+                  <?php
                   foreach( $pedidos as $row )
                   { 
                   ?>
