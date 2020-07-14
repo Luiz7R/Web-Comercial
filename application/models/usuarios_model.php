@@ -70,6 +70,12 @@ function validateCpf($cpf) {
 		))->row_array( );
 	}
 
+	public function retornaPedidos($id) {
+		return $this->db->get_where("pedidos", array(
+			"usuario_id" => $id
+		))->result_array( );
+	}
+
 	public function contaUsuario ()
 	{
 		if ( $this->session->userdata("usuario_logado") )
